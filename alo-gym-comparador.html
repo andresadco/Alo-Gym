@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>alo gym — Equipment Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700&family=Nunito:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Alo Yoga palette: near-white backgrounds, black type, warm neutrals */
+  --white:    #ffffff;
+  --off:      #f9f8f6;
+  --bone:     #f2efe9;
+  --pebble:   #e8e4dc;
+  --stone:    #d0cbc0;
+  --clay:     #a89f94;
+  --espresso: #4a3f35;
+  --ink:      #1a1714;
+  --black:    #0e0c0b;
+
+  /* Accent — very muted, barely-there */
+  --sage:     #8a9e8c;
+  --sage-d:   #5c7260;
+  --warm:     #c4a882;
+
+  /* Providers */
+  --blk:  #1a1714;
+  --nke:  #e84020;
+  --tec:  #3a7ab8;
+  --egy:  #2a9e6e;
+
+  --border: rgba(26,23,20,0.08);
+  --border-m: rgba(26,23,20,0.14);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  padding-bottom: 84px;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--white);
+  padding: 56px 24px 40px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  position: relative;
+}
+
+/* Alo-style wordmark */
+.logo-mark {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  letter-spacing: 8px;
+  text-transform: lowercase;
+  color: var(--clay);
+  margin-bottom: 6px;
+}
+
+.logo-main {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 52px;
+  letter-spacing: 12px;
+  text-transform: lowercase;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.logo-sub {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 28px;
+}
+
+.header-divider {
+  width: 32px;
+  height: 1px;
+  background: var(--stone);
+  margin: 0 auto 20px;
+}
+
+.header-desc {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--clay);
+  letter-spacing: 0.5px;
+  line-height: 1.8;
+}
+
+.header-tags {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.h-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.h-tag-dot {
+  font-size: 9px;
+  color: var(--stone);
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding: 10px 20px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 200;
+}
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+  user-select: none;
+}
+.nav-btn:active { background: var(--bone); }
+.nav-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--stone);
+  transition: all 0.25s;
+}
+.nav-btn.active .nav-dot {
+  background: var(--ink);
+  width: 16px;
+  border-radius: 3px;
+}
+.nav-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  transition: color 0.2s;
+}
+.nav-btn.active .nav-label { color: var(--ink); }
+
+/* ── PANELS ── */
+.panel { display:none; }
+.panel.active { display:block; animation: rise 0.4s ease forwards; }
+@keyframes rise {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── CHROME ── */
+.panel-wrap { padding: 40px 24px 24px; }
+
+.section-eyebrow {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-eyebrow::after { content:''; flex:1; height:1px; background:var(--border); }
+
+.section-heading {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 32px;
+  letter-spacing: -0.3px;
+  color: var(--black);
+  margin-bottom: 28px;
+  line-height: 1.15;
+}
+
+/* ════════ TAB I — BRAND CARDS ════════ */
+
+.brand-card {
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--white);
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+.brand-card.open { border-color: var(--border-m); }
+
+.bc-head {
+  padding: 20px 20px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  background: var(--white);
+  position: relative;
+}
+.bc-accent-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+}
+
+.bc-left { flex: 1; }
+.bc-name {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--black);
+  text-transform: lowercase;
+}
+.bc-origin {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-top: 2px;
+}
+
+.bc-right { display: flex; align-items: center; gap: 10px; }
+.bc-score {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+  color: var(--black);
+}
+.bc-chev {
+  font-size: 10px;
+  color: var(--stone);
+  transition: transform 0.3s ease;
+}
+.brand-card.open .bc-chev { transform: rotate(180deg); }
+
+.bc-body {
+  display: none;
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--off);
+}
+.brand-card.open .bc-body { display: block; }
+
+.bc-group-title {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--clay);
+  padding: 16px 0 8px;
+}
+
+.bc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.bc-row:last-child { border-bottom: none; }
+.bc-row-label {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--espresso);
+  flex: 1;
+  letter-spacing: 0.2px;
+}
+.bc-row-val { flex-shrink: 0; }
+
+/* Alo-style tags — very understated */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 1px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.tag.pos { background: #eef4ef; color: var(--sage-d); border: 1px solid rgba(90,114,96,0.15); }
+.tag.neg { background: #fdf0ee; color: #9e4035; border: 1px solid rgba(158,64,53,0.15); }
+.tag.mid { background: #faf6f0; color: var(--warm); border: 1px solid rgba(196,168,130,0.2); }
+.tag.neu { background: var(--bone); color: var(--clay); border: 1px solid var(--border); }
+
+.bc-big {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: var(--black);
+  letter-spacing: 0.5px;
+}
+.bc-mono {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--espresso);
+  letter-spacing: 0.5px;
+}
+
+/* ════════ TAB II — MODELO ════════ */
+
+.ctrl-group {
+  margin-bottom: 2px;
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 22px 20px 18px;
+  margin-bottom: 8px;
+}
+.ctrl-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 8px;
+}
+.ctrl-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 38px;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+.ctrl-val em { font-style: normal; color: var(--espresso); }
+
+input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 1px;
+  background: var(--stone);
+  outline: none;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  background: var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.ctrl-hints {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 9px;
+  color: var(--stone);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+/* Capex visual */
+.capex-wrap { margin-bottom: 32px; }
+.capex-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.capex-item:last-child { border-bottom: none; }
+.capex-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: baseline;
+}
+.capex-name {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--espresso);
+  letter-spacing: 0.3px;
+  text-transform: lowercase;
+}
+.capex-amt {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--espresso);
+}
+.capex-track {
+  height: 1px;
+  background: var(--pebble);
+  position: relative;
+}
+.capex-fill {
+  height: 100%;
+  position: absolute; left:0; top:0;
+  transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.capex-fill::after {
+  content:'';
+  position: absolute; right:0; top:50%;
+  transform: translateY(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+/* PNL mobile */
+.pnl-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.pnl-tabs::-webkit-scrollbar { display: none; }
+.pnl-tab {
+  padding: 7px 16px;
+  border: 1px solid var(--border-m);
+  border-radius: 1px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: lowercase;
+  color: var(--clay);
+  cursor: pointer;
+  white-space: nowrap;
+  background: var(--white);
+  transition: all 0.2s;
+}
+.pnl-tab.sel { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+.pnl-block {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--white);
+}
+.pnl-header {
+  padding: 14px 20px;
+  background: var(--off);
+  border-bottom: 1px solid var(--border);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--clay);
+}
+.pnl-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.pnl-item:last-child { border-bottom: none; }
+.pnl-item.total-row { background: var(--ink); }
+.pnl-item-label {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--espresso);
+  letter-spacing: 0.2px;
+}
+.pnl-item.total-row .pnl-item-label {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.pnl-item-val {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--espresso);
+}
+.pnl-item.total-row .pnl-item-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+  letter-spacing: -0.3px;
+}
+
+/* ════════ TAB III — DECISIÓN ════════ */
+
+.rec-card {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 2px;
+  padding: 32px 24px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.rec-card::before {
+  content: 'alo gym';
+  position: absolute;
+  right: -10px; bottom: -20px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 80px;
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.03);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.rec-eyebrow {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 16px;
+}
+.rec-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 38px;
+  letter-spacing: -0.3px;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+.rec-title em { font-style: normal; color: var(--warm); }
+.rec-body {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--stone);
+  line-height: 1.8;
+}
+
+/* Steps */
+.steps { margin-bottom: 28px; }
+.step {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.step:last-child { border-bottom: none; }
+.step-n {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border-m);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--clay);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-body strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 3px;
+  letter-spacing: 0.2px;
+}
+.step-body span {
+  font-size: 11px;
+  color: var(--clay);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Provider mini cards */
+.prov-mini {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 20px 20px;
+  margin-bottom: 8px;
+  background: var(--off);
+  position: relative;
+  overflow: hidden;
+}
+.prov-mini-accent {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 2px;
+}
+.prov-mini.featured {
+  background: var(--white);
+  border-color: var(--border-m);
+}
+.prov-selected {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--sage-d);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.prov-selected::before { content:'·'; font-size:14px; }
+.prov-name-m {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--black);
+  text-transform: lowercase;
+  margin-bottom: 2px;
+}
+.prov-origin-m {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 12px;
+}
+.prov-text-m {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--espresso);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.prov-pc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.pc-head {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.pros .pc-head { color: var(--sage-d); }
+.cons .pc-head { color: #9e4035; }
+.pc-li {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--espresso);
+  padding: 3px 0 3px 12px;
+  position: relative;
+  line-height: 1.4;
+}
+.pros .pc-li::before { content:'+'; position:absolute; left:0; color:var(--sage-d); }
+.cons .pc-li::before { content:'—'; position:absolute; left:0; color:#9e4035; font-size:8px; top:5px; }
+
+/* Footer */
+.footer {
+  padding: 24px 24px 12px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 18px;
+  letter-spacing: 8px;
+  text-transform: lowercase;
+  color: var(--stone);
+  margin-bottom: 8px;
+}
+.footer-sub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pebble);
+}
+
+/* ════════ PRICING TAB ════════ */
+
+/* Tier cards */
+.tier-card {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  margin-bottom: 10px;
+  background: var(--white);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.tier-card.featured {
+  border-color: var(--border-m);
+  background: var(--off);
+}
+.tier-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--ink);
+}
+.tier-card.featured .tier-accent { height: 2px; }
+
+.tier-head {
+  padding: 20px 20px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.tier-badge {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--sage-d);
+  margin-bottom: 6px;
+}
+.tier-name {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--black);
+  text-transform: lowercase;
+  line-height: 1.1;
+}
+.tier-tagline {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--clay);
+  margin-top: 3px;
+  letter-spacing: 0.3px;
+}
+.tier-price-block { text-align: right; }
+.tier-price {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 28px;
+  color: var(--black);
+  line-height: 1;
+  letter-spacing: -0.3px;
+}
+.tier-price-unit {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-top: 3px;
+}
+.tier-per-visit {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--stone);
+  margin-top: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+.tier-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 20px;
+}
+
+.tier-features {
+  padding: 14px 20px 18px;
+}
+.tier-feat {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--espresso);
+  line-height: 1.4;
+}
+.tier-feat-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--stone);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.tier-card.featured .tier-feat-dot { background: var(--sage-d); }
+
+/* Revenue mix simulator */
+.mix-sim {
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 24px 20px;
+  margin-bottom: 24px;
+}
+.mix-sim-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: var(--black);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+.mix-sim-sub {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--clay);
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
+}
+
+.mix-row {
+  margin-bottom: 18px;
+}
+.mix-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.mix-row-label {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--espresso);
+  letter-spacing: 0.2px;
+}
+.mix-row-count {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--black);
+}
+.mix-row-count em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--clay);
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  margin-left: 3px;
+}
+input.mix-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 1px;
+  background: var(--stone);
+  outline: none;
+  cursor: pointer;
+}
+input.mix-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+.mix-hints {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 9px;
+  color: var(--stone);
+  font-family: 'Courier New', monospace;
+}
+
+/* Revenue bar stack */
+.rev-stack {
+  margin-top: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+.rev-stack-title {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 14px;
+}
+.rev-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.rev-bar-label {
+  width: 80px;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--clay);
+  flex-shrink: 0;
+  text-transform: lowercase;
+  letter-spacing: 0.3px;
+}
+.rev-bar-track {
+  flex: 1;
+  height: 2px;
+  background: var(--pebble);
+  position: relative;
+}
+.rev-bar-fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+  position: absolute; left:0; top:0;
+}
+.rev-bar-fill::after {
+  content:'';
+  position:absolute; right:0; top:50%;
+  transform:translateY(-50%);
+  width:5px; height:5px;
+  border-radius:50%;
+  background:var(--ink);
+}
+.rev-bar-val {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--espresso);
+  width: 68px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.rev-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 6px;
+}
+.rev-total-label {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--espresso);
+}
+.rev-total-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 28px;
+  color: var(--black);
+  letter-spacing: -0.3px;
+}
+
+/* Comparison summary chips */
+.tier-compare {
+  margin-bottom: 24px;
+}
+.compare-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.compare-row::-webkit-scrollbar { display: none; }
+.compare-chip {
+  flex-shrink: 0;
+  border: 1px solid var(--border-m);
+  border-radius: 2px;
+  padding: 12px 14px;
+  background: var(--white);
+  min-width: 100px;
+  text-align: center;
+}
+.cc-name {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 6px;
+}
+.cc-price {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: var(--black);
+  line-height: 1;
+}
+.cc-unit {
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--stone);
+  margin-top: 3px;
+}
+.cc-pv {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  color: var(--sage-d);
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo-mark">barrio salamanca · madrid</div>
+  <div class="logo-main">alo gym</div>
+  <div class="logo-sub">equipment analysis · 2026</div>
+  <div class="header-divider"></div>
+  <p class="header-desc">Análisis comparativo de proveedores<br>para el primer estudio de fuerza premium de Madrid</p>
+  <div class="header-tags">
+    <span class="h-tag">300–400 m²</span>
+    <span class="h-tag-dot">·</span>
+    <span class="h-tag">4 proveedores</span>
+    <span class="h-tag-dot">·</span>
+    <span class="h-tag">€200 / membresía</span>
+  </div>
+</header>
+
+<!-- PANEL I: ANÁLISIS -->
+<div class="panel active" id="tab-tabla">
+<div class="panel-wrap">
+
+  <div class="section-eyebrow">Evaluación de proveedores</div>
+  <div class="section-heading">cuatro opciones para equipar el espacio</div>
+
+  <!-- BLK BOX -->
+  <div class="brand-card open" id="c-blkbox">
+    <div class="bc-head" onclick="toggle('blkbox')">
+      <div class="bc-accent-line" style="background:var(--blk);"></div>
+      <div class="bc-left">
+        <div class="bc-name">blk box</div>
+        <div class="bc-origin">Belfast · Fuerza Funcional</div>
+      </div>
+      <div class="bc-right">
+        <div class="bc-score">8.8</div>
+        <div class="bc-chev">▲</div>
+      </div>
+    </div>
+    <div class="bc-body">
+      <div class="bc-group-title">Marca</div>
+      <div class="bc-row"><span class="bc-row-label">Reconocimiento en Madrid</span><span class="tag pos">Exclusiva · 1er proyecto</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diferenciación</span><span class="tag pos">Única en España</span></div>
+      <div class="bc-row"><span class="bc-row-label">Atractivo visual</span><span class="tag pos">Aspiracional · Raw</span></div>
+      <div class="bc-group-title">Equipamiento</div>
+      <div class="bc-row"><span class="bc-row-label">Cobertura del espacio</span><span class="tag mid">Fuerza funcional pura</span></div>
+      <div class="bc-row"><span class="bc-row-label">Necesita cardio extra</span><span class="tag neg">Sí — obligatorio</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diseño del espacio</span><span class="tag pos">Incluido · Core del modelo</span></div>
+      <div class="bc-row"><span class="bc-row-label">Customización total</span><span class="tag pos">Sí</span></div>
+      <div class="bc-group-title">Inversión</div>
+      <div class="bc-row"><span class="bc-row-label">CAPEX sala 350m²</span><span class="bc-big">€55 — 95K</span></div>
+      <div class="bc-row"><span class="bc-row-label">Leasing mensual</span><span class="bc-mono">€1.300 — 2.200</span></div>
+      <div class="bc-row"><span class="bc-row-label">Financiación disponible</span><span class="tag pos">Sí · Bluestar</span></div>
+      <div class="bc-group-title">Partnership</div>
+      <div class="bc-row"><span class="bc-row-label">Co-marketing activaciones</span><span class="tag pos">Alto · 1er caso España</span></div>
+      <div class="bc-row"><span class="bc-row-label">Contacto Europa</span><span class="tag pos">Lyndon Wood · directo</span></div>
+      <div class="bc-row"><span class="bc-row-label">Velocidad negociación</span><span class="tag pos">Rápida</span></div>
+    </div>
+  </div>
+
+  <!-- NIKE STRENGTH -->
+  <div class="brand-card" id="c-nike">
+    <div class="bc-head" onclick="toggle('nike')">
+      <div class="bc-accent-line" style="background:var(--nke);"></div>
+      <div class="bc-left">
+        <div class="bc-name">nike strength</div>
+        <div class="bc-origin">USA · Free Weights</div>
+      </div>
+      <div class="bc-right">
+        <div class="bc-score">7.2</div>
+        <div class="bc-chev">▼</div>
+      </div>
+    </div>
+    <div class="bc-body">
+      <div class="bc-group-title">Marca</div>
+      <div class="bc-row"><span class="bc-row-label">Reconocimiento en Madrid</span><span class="tag mid">Moderado</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diferenciación</span><span class="tag mid">Media</span></div>
+      <div class="bc-row"><span class="bc-row-label">Atractivo visual</span><span class="tag pos">El swoosh vende</span></div>
+      <div class="bc-group-title">Equipamiento</div>
+      <div class="bc-row"><span class="bc-row-label">Cobertura del espacio</span><span class="tag neg">Solo pesos libres</span></div>
+      <div class="bc-row"><span class="bc-row-label">Necesita cardio extra</span><span class="tag neg">Sí — obligatorio</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diseño del espacio</span><span class="tag neg">No incluido</span></div>
+      <div class="bc-group-title">Inversión</div>
+      <div class="bc-row"><span class="bc-row-label">CAPEX sala 350m²</span><span class="bc-big">€40 — 70K</span></div>
+      <div class="bc-row"><span class="bc-row-label">Leasing mensual</span><span class="bc-mono">€900 — 1.600</span></div>
+      <div class="bc-row"><span class="bc-row-label">Financiación disponible</span><span class="tag mid">Wholesale · Sin leasing EU</span></div>
+      <div class="bc-group-title">Partnership</div>
+      <div class="bc-row"><span class="bc-row-label">Co-marketing activaciones</span><span class="tag mid">Posible vía Fitness Park</span></div>
+      <div class="bc-row"><span class="bc-row-label">Contacto Europa</span><span class="tag mid">Dimension 6 EU</span></div>
+      <div class="bc-row"><span class="bc-row-label">Velocidad negociación</span><span class="tag mid">Media</span></div>
+    </div>
+  </div>
+
+  <!-- TECHNOGYM -->
+  <div class="brand-card" id="c-techno">
+    <div class="bc-head" onclick="toggle('techno')">
+      <div class="bc-accent-line" style="background:var(--tec);"></div>
+      <div class="bc-left">
+        <div class="bc-name">technogym</div>
+        <div class="bc-origin">Italia · Full Premium</div>
+      </div>
+      <div class="bc-right">
+        <div class="bc-score">7.5</div>
+        <div class="bc-chev">▼</div>
+      </div>
+    </div>
+    <div class="bc-body">
+      <div class="bc-group-title">Marca</div>
+      <div class="bc-row"><span class="bc-row-label">Reconocimiento en Madrid</span><span class="tag pos">Alto</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diferenciación</span><span class="tag neg">Varios competidores</span></div>
+      <div class="bc-group-title">Equipamiento</div>
+      <div class="bc-row"><span class="bc-row-label">Cobertura del espacio</span><span class="tag pos">Full wall-to-wall</span></div>
+      <div class="bc-row"><span class="bc-row-label">Necesita cardio extra</span><span class="tag pos">No</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diseño del espacio</span><span class="tag pos">Sí con consultor</span></div>
+      <div class="bc-group-title">Inversión</div>
+      <div class="bc-row"><span class="bc-row-label">CAPEX sala 350m²</span><span class="bc-big">€150 — 250K</span></div>
+      <div class="bc-row"><span class="bc-row-label">Leasing mensual</span><span class="bc-mono" style="color:#9e4035">€3.500 — 5.800</span></div>
+      <div class="bc-row"><span class="bc-row-label">Financiación disponible</span><span class="tag pos">Sí · Red bancaria global</span></div>
+      <div class="bc-group-title">Partnership</div>
+      <div class="bc-row"><span class="bc-row-label">Contacto directo</span><span class="tag pos">Oficina Madrid</span></div>
+      <div class="bc-row"><span class="bc-row-label">Velocidad negociación</span><span class="tag neg">Lenta · Proceso formal</span></div>
+    </div>
+  </div>
+
+  <!-- EGYM -->
+  <div class="brand-card" id="c-egym">
+    <div class="bc-head" onclick="toggle('egym')">
+      <div class="bc-accent-line" style="background:var(--egy);"></div>
+      <div class="bc-left">
+        <div class="bc-name">egym</div>
+        <div class="bc-origin">Alemania · Smart Tech</div>
+      </div>
+      <div class="bc-right">
+        <div class="bc-score">7.0</div>
+        <div class="bc-chev">▼</div>
+      </div>
+    </div>
+    <div class="bc-body">
+      <div class="bc-group-title">Marca</div>
+      <div class="bc-row"><span class="bc-row-label">Reconocimiento en Madrid</span><span class="tag mid">Creciente</span></div>
+      <div class="bc-row"><span class="bc-row-label">Diferenciación</span><span class="tag pos">Alta · tech único</span></div>
+      <div class="bc-group-title">Equipamiento</div>
+      <div class="bc-row"><span class="bc-row-label">Cobertura del espacio</span><span class="tag mid">Fuerza conectada</span></div>
+      <div class="bc-row"><span class="bc-row-label">Necesita cardio extra</span><span class="tag mid">Parcialmente</span></div>
+      <div class="bc-group-title">Inversión</div>
+      <div class="bc-row"><span class="bc-row-label">CAPEX sala 350m²</span><span class="bc-big">€90 — 160K</span></div>
+      <div class="bc-row"><span class="bc-row-label">Leasing mensual</span><span class="bc-mono">€2.100 — 3.700</span></div>
+      <div class="bc-row"><span class="bc-row-label">Financiación disponible</span><span class="tag pos">Sí · Programa operadores</span></div>
+      <div class="bc-group-title">Partnership</div>
+      <div class="bc-row"><span class="bc-row-label">Co-marketing</span><span class="tag mid">Moderado</span></div>
+      <div class="bc-row"><span class="bc-row-label">Velocidad negociación</span><span class="tag mid">Media</span></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- PANEL II: MODELO -->
+<div class="panel" id="tab-modelo">
+<div class="panel-wrap">
+
+  <div class="section-eyebrow">Modelo financiero</div>
+  <div class="section-heading">impacto por proveedor</div>
+
+  <div class="ctrl-group">
+    <div class="ctrl-label">Socios activos</div>
+    <div class="ctrl-val"><em id="v-m">150</em></div>
+    <input type="range" id="sl-m" min="50" max="300" value="150" step="5">
+    <div class="ctrl-hints"><span>50</span><span>300</span></div>
+  </div>
+  <div class="ctrl-group">
+    <div class="ctrl-label">Precio membresía / mes</div>
+    <div class="ctrl-val">€<em id="v-p">200</em></div>
+    <input type="range" id="sl-p" min="150" max="300" value="200" step="5">
+    <div class="ctrl-hints"><span>€150</span><span>€300</span></div>
+  </div>
+  <div class="ctrl-group" style="margin-bottom:32px;">
+    <div class="ctrl-label">Alquiler mensual</div>
+    <div class="ctrl-val">€<em id="v-r">6.500</em></div>
+    <input type="range" id="sl-r" min="5000" max="10000" value="6500" step="500">
+    <div class="ctrl-hints"><span>€5.000</span><span>€10.000</span></div>
+  </div>
+
+  <div class="section-eyebrow" style="margin-bottom:16px;">Inversión inicial</div>
+  <div class="capex-wrap" id="capex-wrap"></div>
+
+  <div class="section-eyebrow" style="margin-bottom:16px;">P&L mensual</div>
+  <div class="pnl-tabs" id="pnl-tabs"></div>
+  <div class="pnl-block" id="pnl-block"></div>
+
+</div>
+</div>
+
+<!-- PANEL III: DECISIÓN -->
+<div class="panel" id="tab-decision">
+<div class="panel-wrap">
+
+  <div class="section-eyebrow">Recomendación final</div>
+
+  <div class="rec-card">
+    <div class="rec-eyebrow">selección estratégica</div>
+    <div class="rec-title">blk box<br>+ <em>nike strength</em></div>
+    <p class="rec-body">El combo óptimo para alo gym Salamanca. BLK BOX equipa el 80% del espacio — rigs, racks, plataformas, turf funcional — con diseño y leasing incluidos. Nike Strength completa con los pesos libres. Primer proyecto de ambas marcas en Madrid. Palanca de negociación en los dos frentes.</p>
+  </div>
+
+  <div class="section-eyebrow" style="margin-bottom:16px;">Plan de acción</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-body">
+        <strong>Contacta a Lyndon Wood</strong>
+        <span>Head of Key Accounts Europa · BLK BOX · blkboxfitness.com/pages/contact · LinkedIn</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-body">
+        <strong>Aplica wholesale Nike Strength EU</strong>
+        <span>eu.nikestrength.com/pages/wholesale · Dimension 6 Fitness</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-body">
+        <strong>Prepara el dossier del proyecto</strong>
+        <span>1 página · Concepto alo gym, m², socios objetivo, posicionamiento Salamanca</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-body">
+        <strong>Identifica el local</strong>
+        <span>280–420 m² · Red ADCO · Mínimo 3.2m altura · 3–4 meses de carencia</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-eyebrow" style="margin-bottom:16px;">Análisis por proveedor</div>
+
+  <div class="prov-mini featured">
+    <div class="prov-mini-accent" style="background:var(--blk);"></div>
+    <div class="prov-selected">seleccionado</div>
+    <div class="prov-name-m">blk box</div>
+    <div class="prov-origin-m">Belfast · Fuerza Funcional</div>
+    <div class="prov-text-m">El fit más natural para alo gym. Diseño e instalación incluidos, primer proyecto en España, cuota de leasing más razonable. Clientes: Nike HQ Londres, Arsenal, PureGym.</div>
+    <div class="prov-pc">
+      <div class="pros">
+        <div class="pc-head">A favor</div>
+        <div class="pc-li">Diseño incluido</div>
+        <div class="pc-li">Leasing €1.3–2.2K/mes</div>
+        <div class="pc-li">Co-marketing España</div>
+        <div class="pc-li">Aesthetic singular</div>
+      </div>
+      <div class="cons">
+        <div class="pc-head">A considerar</div>
+        <div class="pc-li">Sin cardio</div>
+        <div class="pc-li">Desconocida en Madrid</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prov-mini">
+    <div class="prov-mini-accent" style="background:var(--nke);"></div>
+    <div class="prov-name-m">nike strength</div>
+    <div class="prov-origin-m">USA · Free Weights</div>
+    <div class="prov-text-m">El swoosh justifica el precio premium. Solo pesos libres — complemento perfecto para BLK BOX.</div>
+    <div class="prov-pc">
+      <div class="pros">
+        <div class="pc-head">A favor</div>
+        <div class="pc-li">Marca global</div>
+        <div class="pc-li">Señalética visible</div>
+        <div class="pc-li">Precio competitivo</div>
+      </div>
+      <div class="cons">
+        <div class="pc-head">A considerar</div>
+        <div class="pc-li">Solo free weights</div>
+        <div class="pc-li">Sin leasing EU</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prov-mini">
+    <div class="prov-mini-accent" style="background:var(--tec);"></div>
+    <div class="prov-name-m">technogym</div>
+    <div class="prov-origin-m">Italia · Premium Full</div>
+    <div class="prov-text-m">El estándar del premium en España. Full wall-to-wall pero el CAPEX más alto y sin diferenciación donde Metropolitan ya les usa.</div>
+    <div class="prov-pc">
+      <div class="pros">
+        <div class="pc-head">A favor</div>
+        <div class="pc-li">Full wall-to-wall</div>
+        <div class="pc-li">Oficina Madrid</div>
+        <div class="pc-li">Leasing global</div>
+      </div>
+      <div class="cons">
+        <div class="pc-head">A considerar</div>
+        <div class="pc-li">CAPEX €150–250K</div>
+        <div class="pc-li">€3.5–5.8K/mes</div>
+        <div class="pc-li">Sin diferenciación</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prov-mini">
+    <div class="prov-mini-accent" style="background:var(--egy);"></div>
+    <div class="prov-name-m">egym</div>
+    <div class="prov-origin-m">Alemania · Smart Tech</div>
+    <div class="prov-text-m">Tech diferenciador: máquinas que identifican al socio, ajustan el peso y generan datos de progreso. Ideal si la tecnología es el argumento de venta central.</div>
+    <div class="prov-pc">
+      <div class="pros">
+        <div class="pc-head">A favor</div>
+        <div class="pc-li">Tech único</div>
+        <div class="pc-li">Alta retención</div>
+        <div class="pc-li">Datos de progreso</div>
+      </div>
+      <div class="cons">
+        <div class="pc-head">A considerar</div>
+        <div class="pc-li">Aesthetic corp.</div>
+        <div class="pc-li">Cuota alta</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-logo">alo gym</div>
+    <div class="footer-sub">ADCO Investments · Salamanca · Madrid 2026</div>
+  </div>
+
+</div>
+</div>
+
+<!-- PANEL: PRECIOS -->
+<div class="panel" id="tab-precios">
+<div class="panel-wrap">
+
+  <div class="section-eyebrow">Estructura de precios</div>
+  <div class="section-heading">cinco formas de acceder a alo gym</div>
+
+  <!-- Quick compare chips -->
+  <div class="section-eyebrow" style="margin-bottom:12px;">Resumen de tarifas</div>
+  <div class="compare-row" style="margin-bottom:28px;">
+    <div class="compare-chip">
+      <div class="cc-name">Mensual</div>
+      <div class="cc-price">€200</div>
+      <div class="cc-unit">/ mes · ilimitado</div>
+      <div class="cc-pv">€6.7 / visita*</div>
+    </div>
+    <div class="compare-chip" style="border-color:var(--ink);">
+      <div class="cc-name">Pack 20</div>
+      <div class="cc-price">€280</div>
+      <div class="cc-unit">/ 20 accesos</div>
+      <div class="cc-pv">€14 / visita</div>
+    </div>
+    <div class="compare-chip">
+      <div class="cc-name">Pack 10</div>
+      <div class="cc-price">€160</div>
+      <div class="cc-unit">/ 10 accesos</div>
+      <div class="cc-pv">€16 / visita</div>
+    </div>
+    <div class="compare-chip">
+      <div class="cc-name">Pack 5</div>
+      <div class="cc-price">€90</div>
+      <div class="cc-unit">/ 5 accesos</div>
+      <div class="cc-pv">€18 / visita</div>
+    </div>
+    <div class="compare-chip">
+      <div class="cc-name">Drop-in</div>
+      <div class="cc-price">€25</div>
+      <div class="cc-unit">/ clase suelta</div>
+      <div class="cc-pv">precio base</div>
+    </div>
+  </div>
+  <div style="font-size:9px;font-weight:300;color:var(--stone);margin-top:-20px;margin-bottom:28px;letter-spacing:0.3px;">* Calculado a 30 visitas/mes</div>
+
+  <!-- Tier 1: Mensual -->
+  <div class="tier-card featured">
+    <div class="tier-accent"></div>
+    <div class="tier-head">
+      <div>
+        <div class="tier-badge">más popular</div>
+        <div class="tier-name">membresía mensual</div>
+        <div class="tier-tagline">Acceso ilimitado al studio</div>
+      </div>
+      <div class="tier-price-block">
+        <div class="tier-price">€200</div>
+        <div class="tier-price-unit">por mes</div>
+        <div class="tier-per-visit">~€6.7 / visita</div>
+      </div>
+    </div>
+    <div class="tier-divider"></div>
+    <div class="tier-features">
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Acceso ilimitado a todas las clases del horario</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Reserva prioritaria 72h antes de apertura</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Acceso a zona de fuerza libre fuera de clases</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>1 clase de prueba gratuita para un amigo / mes</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Cancelación en cualquier momento (30 días aviso)</span></div>
+    </div>
+  </div>
+
+  <!-- Tier 2: Pack 20 -->
+  <div class="tier-card">
+    <div class="tier-accent" style="background:var(--espresso);"></div>
+    <div class="tier-head">
+      <div>
+        <div class="tier-name">pack 20 clases</div>
+        <div class="tier-tagline">Válido 6 meses desde compra</div>
+      </div>
+      <div class="tier-price-block">
+        <div class="tier-price">€280</div>
+        <div class="tier-price-unit">20 accesos</div>
+        <div class="tier-per-visit">€14 / clase</div>
+      </div>
+    </div>
+    <div class="tier-divider"></div>
+    <div class="tier-features">
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Uso flexible — no hay que venir cada semana</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Transferible a otra persona (mismo pack)</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Reserva estándar 48h antes</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Ahorro de €44 vs. clase suelta</span></div>
+    </div>
+  </div>
+
+  <!-- Tier 3: Pack 10 -->
+  <div class="tier-card">
+    <div class="tier-accent" style="background:var(--clay);"></div>
+    <div class="tier-head">
+      <div>
+        <div class="tier-name">pack 10 clases</div>
+        <div class="tier-tagline">Válido 3 meses desde compra</div>
+      </div>
+      <div class="tier-price-block">
+        <div class="tier-price">€160</div>
+        <div class="tier-price-unit">10 accesos</div>
+        <div class="tier-per-visit">€16 / clase</div>
+      </div>
+    </div>
+    <div class="tier-divider"></div>
+    <div class="tier-features">
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Ideal para 2–3 veces por semana</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Punto de entrada perfecto para nuevos clientes</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Reserva estándar 48h antes</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Ahorro de €90 vs. clase suelta</span></div>
+    </div>
+  </div>
+
+  <!-- Tier 4: Pack 5 -->
+  <div class="tier-card">
+    <div class="tier-accent" style="background:var(--stone);"></div>
+    <div class="tier-head">
+      <div>
+        <div class="tier-name">pack 5 clases</div>
+        <div class="tier-tagline">Válido 6 semanas desde compra</div>
+      </div>
+      <div class="tier-price-block">
+        <div class="tier-price">€90</div>
+        <div class="tier-price-unit">5 accesos</div>
+        <div class="tier-per-visit">€18 / clase</div>
+      </div>
+    </div>
+    <div class="tier-divider"></div>
+    <div class="tier-features">
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Para probar sin compromiso mayor</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Buen regalo — viene en tarjeta física</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Ahorro de €35 vs. clase suelta</span></div>
+    </div>
+  </div>
+
+  <!-- Tier 5: Drop-in -->
+  <div class="tier-card">
+    <div class="tier-accent" style="background:var(--pebble);"></div>
+    <div class="tier-head">
+      <div>
+        <div class="tier-name">clase suelta</div>
+        <div class="tier-tagline">Drop-in · sin compromiso</div>
+      </div>
+      <div class="tier-price-block">
+        <div class="tier-price">€25</div>
+        <div class="tier-price-unit">por clase</div>
+        <div class="tier-per-visit">precio base</div>
+      </div>
+    </div>
+    <div class="tier-divider"></div>
+    <div class="tier-features">
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Reserva online hasta 24h antes</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>Sujeto a disponibilidad — sin garantía de plaza</span></div>
+      <div class="tier-feat"><div class="tier-feat-dot"></div><span>También disponible en ClassPass</span></div>
+    </div>
+  </div>
+
+  <!-- Revenue Mix Simulator -->
+  <div class="section-eyebrow" style="margin-bottom:16px;">Simulador de revenue mix</div>
+  <div class="mix-sim">
+    <div class="mix-sim-title">¿cuánto genera cada tipo?</div>
+    <div class="mix-sim-sub">Ajusta el número de clientes por modalidad</div>
+
+    <div class="mix-row">
+      <div class="mix-row-top">
+        <span class="mix-row-label">membresías mensuales</span>
+        <span class="mix-row-count" id="m-mensual-v">80 <em>socios</em></span>
+      </div>
+      <input class="mix-slider" type="range" id="m-mensual" min="0" max="200" value="80" step="5">
+      <div class="mix-hints"><span>0</span><span>200</span></div>
+    </div>
+
+    <div class="mix-row">
+      <div class="mix-row-top">
+        <span class="mix-row-label">pack 20 (activos/mes)</span>
+        <span class="mix-row-count" id="m-p20-v">20 <em>personas</em></span>
+      </div>
+      <input class="mix-slider" type="range" id="m-p20" min="0" max="80" value="20" step="2">
+      <div class="mix-hints"><span>0</span><span>80</span></div>
+    </div>
+
+    <div class="mix-row">
+      <div class="mix-row-top">
+        <span class="mix-row-label">pack 10 (activos/mes)</span>
+        <span class="mix-row-count" id="m-p10-v">15 <em>personas</em></span>
+      </div>
+      <input class="mix-slider" type="range" id="m-p10" min="0" max="80" value="15" step="1">
+      <div class="mix-hints"><span>0</span><span>80</span></div>
+    </div>
+
+    <div class="mix-row">
+      <div class="mix-row-top">
+        <span class="mix-row-label">pack 5 (activos/mes)</span>
+        <span class="mix-row-count" id="m-p5-v">10 <em>personas</em></span>
+      </div>
+      <input class="mix-slider" type="range" id="m-p5" min="0" max="60" value="10" step="1">
+      <div class="mix-hints"><span>0</span><span>60</span></div>
+    </div>
+
+    <div class="mix-row">
+      <div class="mix-row-top">
+        <span class="mix-row-label">clases sueltas / mes</span>
+        <span class="mix-row-count" id="m-drop-v">30 <em>clases</em></span>
+      </div>
+      <input class="mix-slider" type="range" id="m-drop" min="0" max="150" value="30" step="5">
+      <div class="mix-hints"><span>0</span><span>150</span></div>
+    </div>
+
+    <!-- Revenue breakdown bars -->
+    <div class="rev-stack">
+      <div class="rev-stack-title">desglose de ingresos</div>
+      <div class="rev-bar-row">
+        <span class="rev-bar-label">mensual</span>
+        <div class="rev-bar-track"><div class="rev-bar-fill" id="rb-mensual"></div></div>
+        <span class="rev-bar-val" id="rv-mensual">—</span>
+      </div>
+      <div class="rev-bar-row">
+        <span class="rev-bar-label">pack 20</span>
+        <div class="rev-bar-track"><div class="rev-bar-fill" id="rb-p20" style="background:var(--espresso)"></div></div>
+        <span class="rev-bar-val" id="rv-p20">—</span>
+      </div>
+      <div class="rev-bar-row">
+        <span class="rev-bar-label">pack 10</span>
+        <div class="rev-bar-track"><div class="rev-bar-fill" id="rb-p10" style="background:var(--clay)"></div></div>
+        <span class="rev-bar-val" id="rv-p10">—</span>
+      </div>
+      <div class="rev-bar-row">
+        <span class="rev-bar-label">pack 5</span>
+        <div class="rev-bar-track"><div class="rev-bar-fill" id="rb-p5" style="background:var(--stone)"></div></div>
+        <span class="rev-bar-val" id="rv-p5">—</span>
+      </div>
+      <div class="rev-bar-row">
+        <span class="rev-bar-label">drop-in</span>
+        <div class="rev-bar-track"><div class="rev-bar-fill" id="rb-drop" style="background:var(--pebble)"></div></div>
+        <span class="rev-bar-val" id="rv-drop">—</span>
+      </div>
+      <div class="rev-total-row">
+        <span class="rev-total-label">Total mensual</span>
+        <span class="rev-total-val" id="rv-total">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing strategy note -->
+  <div style="background:var(--bone);border:1px solid var(--border);border-radius:2px;padding:20px;margin-bottom:24px;">
+    <div class="section-eyebrow" style="margin-bottom:12px;">nota estratégica</div>
+    <p style="font-size:12px;font-weight:300;color:var(--espresso);line-height:1.8;">El objetivo es que el 60–70% del revenue venga de membresías mensuales — son predecibles y crean hábito. Los packs son la puerta de entrada: la mayoría de socios mensuales empezarán con un pack 10. El drop-in llena huecos y atrae nuevos clientes desde ClassPass. Nunca dependas del drop-in como base del negocio.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="nav-btn active" onclick="switchTab('tabla',this)">
+    <div class="nav-dot"></div>
+    <div class="nav-label">análisis</div>
+  </div>
+  <div class="nav-btn" onclick="switchTab('modelo',this)">
+    <div class="nav-dot"></div>
+    <div class="nav-label">modelo</div>
+  </div>
+  <div class="nav-btn" onclick="switchTab('decision',this)">
+    <div class="nav-dot"></div>
+    <div class="nav-label">decisión</div>
+  </div>
+</nav>
+
+<script>
+const fmt = n => '€' + Math.round(n).toLocaleString('es-ES');
+const provs = [
+  {key:'blkbox', name:'blk box',    lease:1750, color:'var(--blk)', capL:55000,  capH:95000 },
+  {key:'nike',   name:'nike str.',  lease:1250, color:'var(--nke)', capL:40000,  capH:70000 },
+  {key:'techno', name:'technogym', lease:4650, color:'var(--tec)', capL:150000, capH:250000},
+  {key:'egym',   name:'egym',      lease:2900, color:'var(--egy)', capL:90000,  capH:160000},
+];
+const maxC = 260000;
+let activeP = 'blkbox';
+
+function calc(m,p,r,l) {
+  const rev = m*p*1.15;
+  const staff = Math.max(3,Math.ceil(m/45))*2200;
+  const util = 2000, supp = m*8;
+  const mkt = rev*0.06, sw = 450;
+  const total = r+staff+util+supp+mkt+sw+l;
+  return {rev, r, staff, l, util, supp, mkt, total, ebitda:rev-total};
+}
+
+function renderCapex() {
+  const el = document.getElementById('capex-wrap');
+  el.innerHTML = provs.map(p => {
+    const mid=(p.capL+p.capH)/2, pct=(mid/maxC*100).toFixed(1);
+    return `<div class="capex-item">
+      <div class="capex-top">
+        <span class="capex-name">${p.name}</span>
+        <span class="capex-amt">${fmt(p.capL)} — ${fmt(p.capH)}</span>
+      </div>
+      <div class="capex-track">
+        <div class="capex-fill" style="width:${pct}%;background:${p.color};"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTabs() {
+  document.getElementById('pnl-tabs').innerHTML = provs.map(p =>
+    `<div class="pnl-tab${p.key===activeP?' sel':''}" onclick="selProv('${p.key}')">${p.name}</div>`
+  ).join('');
+}
+
+function renderPnl() {
+  const m=+document.getElementById('sl-m').value;
+  const p=+document.getElementById('sl-p').value;
+  const r=+document.getElementById('sl-r').value;
+  const prov = provs.find(x=>x.key===activeP);
+  const d = calc(m,p,r,prov.lease);
+  const rows = [
+    {l:'ingresos brutos', v:d.rev, pos:true},
+    {l:'alquiler', v:-d.r},
+    {l:'personal', v:-d.staff},
+    {l:'leasing equipamiento', v:-d.l, hi:true},
+    {l:'suministros + utilities', v:-d.util},
+    {l:'marketing y otros', v:-d.mkt},
+  ];
+  const eCol = d.ebitda>=0 ? 'var(--sage-d)' : '#9e4035';
+  let h = `<div class="pnl-header" style="border-top:2px solid ${prov.color};">${prov.name} · ${m} socios activos</div>`;
+  rows.forEach(row => {
+    const col = row.pos ? 'var(--sage-d)' : (row.hi ? prov.color : 'var(--espresso)');
+    h += `<div class="pnl-item">
+      <span class="pnl-item-label">${row.l}</span>
+      <span class="pnl-item-val" style="color:${col}">${fmt(row.v)}</span>
+    </div>`;
+  });
+  h += `<div class="pnl-item total-row">
+    <span class="pnl-item-label">ebitda mensual</span>
+    <span class="pnl-item-val" style="color:${eCol}">${fmt(d.ebitda)}</span>
+  </div>`;
+  document.getElementById('pnl-block').innerHTML = h;
+}
+
+function selProv(k) { activeP=k; renderTabs(); renderPnl(); }
+
+function update() {
+  document.getElementById('v-m').textContent = document.getElementById('sl-m').value;
+  document.getElementById('v-p').textContent = document.getElementById('sl-p').value;
+  document.getElementById('v-r').textContent = (+document.getElementById('sl-r').value).toLocaleString('es-ES');
+  renderPnl();
+}
+
+function toggle(k) {
+  const c = document.getElementById('c-'+k);
+  const open = c.classList.toggle('open');
+  c.querySelector('.bc-chev').textContent = open ? '▲' : '▼';
+}
+
+function switchTab(t, el) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+['sl-m','sl-p','sl-r'].forEach(id=>document.getElementById(id).addEventListener('input',update));
+renderCapex(); renderTabs(); renderPnl();
+</script>
+</body>
+</html>
