@@ -1175,7 +1175,7 @@ input.mix-slider::-webkit-slider-thumb {
 <div class="panel-wrap">
 
   <div class="section-eyebrow">Modelo financiero</div>
-  <div class="section-heading">impacto por proveedor</div>
+  <div class="section-heading">inversión real + p&l mensual</div>
 
   <div class="ctrl-group">
     <div class="ctrl-label">Socios activos</div>
@@ -1189,15 +1189,63 @@ input.mix-slider::-webkit-slider-thumb {
     <input type="range" id="sl-p" min="150" max="300" value="200" step="5">
     <div class="ctrl-hints"><span>€150</span><span>€300</span></div>
   </div>
-  <div class="ctrl-group" style="margin-bottom:32px;">
+  <div class="ctrl-group">
     <div class="ctrl-label">Alquiler mensual</div>
     <div class="ctrl-val">€<em id="v-r">6.500</em></div>
     <input type="range" id="sl-r" min="5000" max="10000" value="6500" step="500">
     <div class="ctrl-hints"><span>€5.000</span><span>€10.000</span></div>
   </div>
+  <div class="ctrl-group" style="margin-bottom:32px;">
+    <div class="ctrl-label">Superficie del local (m²)</div>
+    <div class="ctrl-val"><em id="v-sqm">350</em> m²</div>
+    <input type="range" id="sl-sqm" min="200" max="500" value="350" step="25">
+    <div class="ctrl-hints"><span>200</span><span>500</span></div>
+  </div>
 
-  <div class="section-eyebrow" style="margin-bottom:16px;">Inversión inicial</div>
-  <div class="capex-wrap" id="capex-wrap"></div>
+  <!-- CAPEX COMPLETO -->
+  <div class="section-eyebrow" style="margin-bottom:16px;">CAPEX total de apertura</div>
+
+  <div style="background:var(--off);border:1px solid var(--border);border-radius:2px;padding:20px 20px 16px;margin-bottom:24px;">
+
+    <!-- Obra -->
+    <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:12px;">Obra y reforma del local</div>
+    <div class="capex-wrap" id="capex-obra"></div>
+
+    <div style="height:1px;background:var(--border);margin:16px 0;"></div>
+
+    <!-- Equipamiento -->
+    <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:12px;">Equipamiento (según proveedor)</div>
+    <div class="capex-wrap" id="capex-equip"></div>
+
+    <div style="height:1px;background:var(--border);margin:16px 0;"></div>
+
+    <!-- Otros -->
+    <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:12px;">Otros costes de apertura</div>
+    <div class="capex-wrap" id="capex-otros"></div>
+
+    <div style="height:1px;background:var(--border-m);margin:16px 0;"></div>
+
+    <!-- TOTAL -->
+    <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0 0;">
+      <span style="font-family:'Nunito',sans-serif;font-weight:300;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--espresso);">total capex</span>
+      <span style="font-family:'Nunito',sans-serif;font-weight:200;font-size:26px;color:var(--black);" id="capex-total">—</span>
+    </div>
+    <div style="font-size:10px;font-weight:300;color:var(--clay);margin-top:4px;text-align:right;" id="capex-note">* BLK BOX en leasing: sin pago inicial en equipamiento estructural</div>
+  </div>
+
+  <!-- Payback -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;">
+    <div style="background:var(--off);border:1px solid var(--border);border-radius:2px;padding:16px;">
+      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:6px;">Payback estimado</div>
+      <div style="font-family:'Nunito',sans-serif;font-weight:200;font-size:26px;color:var(--black);" id="payback-val">—</div>
+      <div style="font-size:10px;color:var(--stone);margin-top:2px;">meses</div>
+    </div>
+    <div style="background:var(--off);border:1px solid var(--border);border-radius:2px;padding:16px;">
+      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--clay);margin-bottom:6px;">Break-even</div>
+      <div style="font-family:'Nunito',sans-serif;font-weight:200;font-size:26px;color:var(--black);" id="breakeven-val">—</div>
+      <div style="font-size:10px;color:var(--stone);margin-top:2px;">socios mínimos</div>
+    </div>
+  </div>
 
   <div class="section-eyebrow" style="margin-bottom:16px;">P&L mensual</div>
   <div class="pnl-tabs" id="pnl-tabs"></div>
@@ -1664,38 +1712,105 @@ function calcMix() {
   document.getElementById(id).addEventListener('input', calcMix)
 );
 calcMix();
+
+// ─── MAIN FINANCIAL MODEL ───
 const provs = [
-  {key:'blkbox', name:'blk box',    lease:1750, color:'var(--blk)', capL:55000,  capH:95000 },
-  {key:'nike',   name:'nike str.',  lease:1250, color:'var(--nke)', capL:40000,  capH:70000 },
-  {key:'techno', name:'technogym', lease:4650, color:'var(--tec)', capL:150000, capH:250000},
-  {key:'egym',   name:'egym',      lease:2900, color:'var(--egy)', capL:90000,  capH:160000},
+  {key:'blkbox', name:'blk box',   lease:1750, color:'var(--blk)', capL:0,      capH:0,      note:'leasing · sin pago inicial'},
+  {key:'nike',   name:'nike str.', lease:1250, color:'var(--nke)', capL:40000,  capH:70000,  note:'free weights compra directa'},
+  {key:'techno', name:'technogym',lease:4650, color:'var(--tec)', capL:150000, capH:250000, note:'full wall-to-wall'},
+  {key:'egym',   name:'egym',      lease:2900, color:'var(--egy)', capL:90000,  capH:160000, note:'smart strength + cardio'},
 ];
-const maxC = 260000;
 let activeP = 'blkbox';
+
+function getInputs() {
+  return {
+    m:   +document.getElementById('sl-m').value,
+    p:   +document.getElementById('sl-p').value,
+    r:   +document.getElementById('sl-r').value,
+    sqm: +document.getElementById('sl-sqm').value,
+  };
+}
+
+function fmtR(l,h) { return fmt(l) + ' — ' + fmt(h); }
+
+function calcCapex(sqm, rent, provKey) {
+  const prov = provs.find(x=>x.key===provKey);
+  const obra = [
+    {n:'reforma · tabiquería · acabados', l:sqm*300, h:sqm*500},
+    {n:'hvac · ventilación industrial',   l:18000,   h:32000},
+    {n:'vestuarios · duchas · taquillas', l:22000,   h:40000},
+    {n:'suelo técnico (turf + goma)',      l:sqm*28,  h:sqm*55},
+    {n:'iluminación + señalética',         l:8000,    h:18000},
+    {n:'recepción + mostrador',            l:8000,    h:15000},
+  ];
+  const equip = provKey==='blkbox'
+    ? [
+        {n:'blk box estructural — leasing (€0 upfront)', l:0,     h:0,     note:true},
+        {n:'nike strength · free weights',                l:30000, h:50000},
+      ]
+    : [{n:prov.name+' · '+prov.note, l:prov.capL, h:prov.capH}];
+  const otros = [
+    {n:'sistema reservas + pos + app',       l:5000,       h:12000},
+    {n:'fianza del local (2–3 meses)',        l:rent*2,     h:rent*3},
+    {n:'licencia apertura · notaría · legal', l:3000,       h:6000},
+  ];
+  const all = [...obra, ...equip, ...otros];
+  const totalL = all.reduce((s,i)=>s+i.l, 0);
+  const totalH = all.reduce((s,i)=>s+i.h, 0);
+  return {obra, equip, otros, totalL, totalH};
+}
 
 function calc(m,p,r,l) {
   const rev = m*p*1.15;
   const staff = Math.max(3,Math.ceil(m/45))*2200;
-  const util = 2000, supp = m*8;
-  const mkt = rev*0.06, sw = 450;
+  const util=2000, supp=m*8, mkt=rev*0.06, sw=450;
   const total = r+staff+util+supp+mkt+sw+l;
   return {rev, r, staff, l, util, supp, mkt, total, ebitda:rev-total};
 }
 
-function renderCapex() {
-  const el = document.getElementById('capex-wrap');
-  el.innerHTML = provs.map(p => {
-    const mid=(p.capL+p.capH)/2, pct=(mid/maxC*100).toFixed(1);
-    return `<div class="capex-item">
-      <div class="capex-top">
-        <span class="capex-name">${p.name}</span>
-        <span class="capex-amt">${fmt(p.capL)} — ${fmt(p.capH)}</span>
-      </div>
-      <div class="capex-track">
-        <div class="capex-fill" style="width:${pct}%;background:${p.color};"></div>
-      </div>
-    </div>`;
-  }).join('');
+function barRow(item, maxVal) {
+  const mid = (item.l+item.h)/2;
+  const pct = maxVal>0 ? (mid/maxVal*100).toFixed(1) : 0;
+  const isZero = item.l===0 && item.h===0;
+  const valStr = isZero ? '— leasing' : fmtR(item.l, item.h);
+  const fillCol = item.note ? 'var(--sage)' : 'var(--ink)';
+  const lblCol  = item.note ? 'var(--sage-d)' : 'var(--espresso)';
+  return `<div class="capex-item">
+    <div class="capex-top">
+      <span class="capex-name" style="color:${lblCol}">${item.n}</span>
+      <span class="capex-amt" style="color:${lblCol}">${valStr}</span>
+    </div>
+    <div class="capex-track">
+      <div class="capex-fill" style="width:${pct}%;background:${fillCol};opacity:${item.note?'0.35':'1'};"></div>
+    </div>
+  </div>`;
+}
+
+function renderFullCapex() {
+  const {sqm, r, m, p} = getInputs();
+  const cap = calcCapex(sqm, r, activeP);
+  const allItems = [...cap.obra, ...cap.equip, ...cap.otros];
+  const maxVal = Math.max(...allItems.map(i=>(i.l+i.h)/2), 1);
+
+  document.getElementById('capex-obra').innerHTML  = cap.obra.map(i=>barRow(i,maxVal)).join('');
+  document.getElementById('capex-equip').innerHTML = cap.equip.map(i=>barRow(i,maxVal)).join('');
+  document.getElementById('capex-otros').innerHTML = cap.otros.map(i=>barRow(i,maxVal)).join('');
+  document.getElementById('capex-total').textContent = fmtR(cap.totalL, cap.totalH);
+  document.getElementById('capex-note').textContent = activeP==='blkbox'
+    ? '* BLK BOX en leasing: sin desembolso inicial en estructura — máxima conservación de caja'
+    : '* Equipamiento pagado al contado o financiado con el proveedor';
+
+  // Payback & break-even
+  const prov = provs.find(x=>x.key===activeP);
+  const monthly = calc(m, p, r, prov.lease);
+  const capexMid = (cap.totalL+cap.totalH)/2;
+  const payback = monthly.ebitda>0 ? Math.ceil(capexMid/monthly.ebitda) : null;
+  const be = Math.ceil((r + Math.max(3,3)*2200 + 2000 + 450 + prov.lease) / (p*0.95));
+
+  const pbEl = document.getElementById('payback-val');
+  pbEl.textContent = payback ? payback : '—';
+  pbEl.style.color = payback && payback<=48 ? 'var(--sage-d)' : payback && payback<=72 ? 'var(--espresso)' : '#9e4035';
+  document.getElementById('breakeven-val').textContent = be;
 }
 
 function renderTabs() {
@@ -1705,21 +1820,19 @@ function renderTabs() {
 }
 
 function renderPnl() {
-  const m=+document.getElementById('sl-m').value;
-  const p=+document.getElementById('sl-p').value;
-  const r=+document.getElementById('sl-r').value;
+  const {m,p,r} = getInputs();
   const prov = provs.find(x=>x.key===activeP);
   const d = calc(m,p,r,prov.lease);
   const rows = [
-    {l:'ingresos brutos', v:d.rev, pos:true},
-    {l:'alquiler', v:-d.r},
-    {l:'personal', v:-d.staff},
-    {l:'leasing equipamiento', v:-d.l, hi:true},
-    {l:'suministros + utilities', v:-d.util},
-    {l:'marketing y otros', v:-d.mkt},
+    {l:'ingresos brutos',              v:d.rev,   pos:true},
+    {l:'alquiler del local',           v:-d.r},
+    {l:'personal (trainers + recep.)', v:-d.staff},
+    {l:'leasing equipamiento',         v:-d.l,    hi:true},
+    {l:'suministros + utilities',      v:-d.util},
+    {l:'marketing y otros',            v:-d.mkt},
   ];
   const eCol = d.ebitda>=0 ? 'var(--sage-d)' : '#9e4035';
-  let h = `<div class="pnl-header" style="border-top:2px solid ${prov.color};">${prov.name} · ${m} socios activos</div>`;
+  let h = `<div class="pnl-header" style="border-top:2px solid ${prov.color};">${prov.name} · ${m} socios · ${fmt(d.rev)} ingresos</div>`;
   rows.forEach(row => {
     const col = row.pos ? 'var(--sage-d)' : (row.hi ? prov.color : 'var(--espresso)');
     h += `<div class="pnl-item">
@@ -1734,13 +1847,15 @@ function renderPnl() {
   document.getElementById('pnl-block').innerHTML = h;
 }
 
-function selProv(k) { activeP=k; renderTabs(); renderPnl(); }
+function selProv(k) { activeP=k; renderTabs(); renderPnl(); renderFullCapex(); }
 
 function update() {
-  document.getElementById('v-m').textContent = document.getElementById('sl-m').value;
-  document.getElementById('v-p').textContent = document.getElementById('sl-p').value;
-  document.getElementById('v-r').textContent = (+document.getElementById('sl-r').value).toLocaleString('es-ES');
-  renderPnl();
+  const {m,p,r,sqm} = getInputs();
+  document.getElementById('v-m').textContent   = m;
+  document.getElementById('v-p').textContent   = p;
+  document.getElementById('v-r').textContent   = r.toLocaleString('es-ES');
+  document.getElementById('v-sqm').textContent = sqm;
+  renderPnl(); renderFullCapex();
 }
 
 function toggle(k) {
@@ -1757,8 +1872,8 @@ function switchTab(t, el) {
   window.scrollTo(0,0);
 }
 
-['sl-m','sl-p','sl-r'].forEach(id=>document.getElementById(id).addEventListener('input',update));
-renderCapex(); renderTabs(); renderPnl();
+['sl-m','sl-p','sl-r','sl-sqm'].forEach(id=>document.getElementById(id).addEventListener('input',update));
+renderTabs(); renderPnl(); renderFullCapex();
 </script>
 </body>
 </html>
